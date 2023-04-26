@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/v-music/static/css/main.073c9b0a.css",
-    "main.js": "/v-music/static/js/main.8fc53c41.js",
+    "main.js": "/v-music/static/js/main.a6545a3e.js",
     "static/js/787.ab9f064c.chunk.js": "/v-music/static/js/787.ab9f064c.chunk.js",
     "index.html": "/v-music/index.html",
     "main.073c9b0a.css.map": "/v-music/static/css/main.073c9b0a.css.map",
-    "main.8fc53c41.js.map": "/v-music/static/js/main.8fc53c41.js.map",
+    "main.a6545a3e.js.map": "/v-music/static/js/main.a6545a3e.js.map",
     "787.ab9f064c.chunk.js.map": "/v-music/static/js/787.ab9f064c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.8fc53c41.js"
+    "static/js/main.a6545a3e.js"
   ]
 }
