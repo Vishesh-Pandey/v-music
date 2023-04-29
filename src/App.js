@@ -7,7 +7,7 @@ function App() {
   const [tracks, setTracks] = useState([]);
 
   const getTracks = async () => {
-    setIsLoading(true);
+    setIsLoading((loading) => true);
     let data = await fetch(
       `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
         keyword === "" ? "trending" : keyword
@@ -15,7 +15,7 @@ function App() {
     );
     let convertedData = await data.json();
     setTracks(convertedData.tracks.items);
-    setIsLoading(false);
+    setIsLoading((loading) => false);
   };
 
   return (
