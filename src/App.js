@@ -10,11 +10,11 @@ function App() {
     setIsLoading((loading) => true);
     let data = await fetch(
       `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
-        keyword === "" ? "trending" : keyword
+        keyword === "" ? "daku" : keyword
       }&type=track`
     );
     let convertedData = await data.json();
-    setTracks(convertedData.tracks.items);
+    setTracks((tracks) => convertedData.tracks.items);
     setIsLoading((loading) => false);
   };
 
