@@ -8,13 +8,19 @@ function App() {
 
   const getTracks = async () => {
     setIsLoading((loading) => true);
-    let data = await fetch(
-      `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
-        keyword === "" ? "daku" : keyword
-      }&type=track`
-    );
-    let convertedData = await data.json();
-    setTracks((tracks) => convertedData.tracks.items);
+    try {
+      let data = await fetch(
+        `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
+          keyword === "" ? "daku" : keyword
+        }&type=track`
+      );
+      let convertedData = await data.json();
+      setTracks((tracks) => convertedData.tracks.items);
+    } catch (error) {
+      setTracks((tracks) => []);
+      alert("Something went wrong! Please create issue on github.");
+    }
+
     setIsLoading((loading) => false);
   };
 
@@ -22,12 +28,7 @@ function App() {
     <>
       <nav className="navbar navbar-dark navbar-expand-lg bg-dark">
         <div className="container-fluid">
-          <a
-            target="_blank"
-            rel="noreferrer"
-            className="navbar-brand"
-            href="https://github.com/Vishesh-Pandey/v-music"
-          >
+          <a className="navbar-brand" href="/">
             <i className="bi bi-music-note-list mx-3"></i> v-music
           </a>
 
@@ -62,15 +63,6 @@ function App() {
             </div>
           </div>
         </div>
-        <div className={`row ${tracks.length === 0 ? "" : "d-none"}`}>
-          <div className="col-12 py-5 text-center">
-            <h1>
-              <i className="bi bi-music-note-list mx-3"></i>
-              v-music
-            </h1>
-            <h3 className="py-5">Discover music in 30 seconds</h3>
-          </div>
-        </div>
         <div className="row">
           {tracks.map((element) => {
             return (
@@ -102,6 +94,25 @@ function App() {
               </div>
             );
           })}
+        </div>
+        <div className="row">
+          <div className="col-12 py-5 text-center">
+            <h1>
+              <i className="bi bi-music-note-list mx-3"></i>
+              v-music
+            </h1>
+            <h3 className="py-5">Discover music in 30 seconds</h3>
+            <div>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-outline-dark"
+                href="https://github.com/Vishesh-Pandey/v-music"
+              >
+                <i className="bi bi-github mx-2"></i>Github
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </>
