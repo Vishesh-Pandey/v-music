@@ -4,6 +4,7 @@ import { useState } from "react";
 function App() {
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [tracks, setTracks] = useState([]);
 
   const getTracks = async () => {
@@ -14,13 +15,25 @@ function App() {
           keyword === "" ? "daku" : keyword
         }&type=track`
       );
-      let convertedData = await data.json();
-      setTracks((tracks) => convertedData.tracks.items);
+      if (data.status === 200) {
+        setMessage("");
+        let convertedData = await data.json();
+        setTracks((tracks) => convertedData.tracks.items);
+      } else if (data.status === 429) {
+        setMessage(
+          (message) =>
+            "We apologize for the inconvenience, but our API calls for this service have reached their limit for the month. Please check back later to continue enjoying our music selection. Thank you for your understanding."
+        );
+      } else if (data.status === 400) {
+        setMessage((message) => "Please try again!");
+      } else {
+        setMessage((message) => "Something went wrong! Please try again!");
+      }
     } catch (error) {
       setTracks((tracks) => []);
-      alert("Something went wrong! Please create issue on github.");
+      setMessage("");
+      alert("Unable to connect! Please check your internet connection");
     }
-
     setIsLoading((loading) => false);
   };
 
@@ -94,6 +107,11 @@ function App() {
               </div>
             );
           })}
+        </div>
+        <div className="row">
+          <div className="col">
+            <h4 className="text-center text-danger py-2">{message}</h4>
+          </div>
         </div>
         <div className="row">
           <div className="col-12 py-5 text-center">
