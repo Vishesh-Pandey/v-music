@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/v-music/static/css/main.073c9b0a.css",
-    "main.js": "/v-music/static/js/main.7eff4acf.js",
-    "static/js/787.ab9f064c.chunk.js": "/v-music/static/js/787.ab9f064c.chunk.js",
-    "index.html": "/v-music/index.html",
-    "main.073c9b0a.css.map": "/v-music/static/css/main.073c9b0a.css.map",
-    "main.7eff4acf.js.map": "/v-music/static/js/main.7eff4acf.js.map",
-    "787.ab9f064c.chunk.js.map": "/v-music/static/js/787.ab9f064c.chunk.js.map"
+    "main.css": "./static/css/main.073c9b0a.css",
+    "main.js": "./static/js/main.f21e0597.js",
+    "static/js/787.ab9f064c.chunk.js": "./static/js/787.ab9f064c.chunk.js",
+    "index.html": "./index.html",
+    "main.073c9b0a.css.map": "./static/css/main.073c9b0a.css.map",
+    "main.f21e0597.js.map": "./static/js/main.f21e0597.js.map",
+    "787.ab9f064c.chunk.js.map": "./static/js/787.ab9f064c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.7eff4acf.js"
+    "static/js/main.f21e0597.js"
   ]
 }
