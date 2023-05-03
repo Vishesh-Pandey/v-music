@@ -8,7 +8,7 @@ function App() {
   const [tracks, setTracks] = useState([]);
 
   const getTracks = async () => {
-    setIsLoading((loading) => true);
+    setIsLoading(true);
     try {
       let data = await fetch(
         `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
@@ -18,23 +18,21 @@ function App() {
       if (data.status === 200) {
         setMessage("");
         let convertedData = await data.json();
-        setTracks((tracks) => convertedData.tracks.items);
+        setTracks(convertedData.tracks.items);
       } else if (data.status === 429) {
-        setMessage(
-          (message) =>
-            "We apologize for the inconvenience, but our API calls for this service have reached their limit for the month. Please check back later to continue enjoying our music selection. Thank you for your understanding."
-        );
+        setMessage("We apologize for the inconvenience, but our API calls for this service have reached their limit for the month. Please check back later to continue enjoying our music selection. Thank you for your understanding.");
       } else if (data.status === 400) {
-        setMessage((message) => "Please try again!");
+        setMessage("Please try again!");
       } else {
-        setMessage((message) => "Something went wrong! Please try again!");
+        setMessage("Something went wrong! Please try again!");
       }
+      console.log(data)
     } catch (error) {
-      setTracks((tracks) => []);
+      setTracks([]);
       setMessage("");
       alert("Unable to connect! Please check your internet connection");
     }
-    setIsLoading((loading) => false);
+    setIsLoading(false);
   };
 
   return (
