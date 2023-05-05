@@ -1,36 +1,55 @@
-import "./App.css";
-import { useState } from "react";
+import './App.css';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [tracks, setTracks] = useState([]);
+
+  useEffect(() => {
+    let searchBox = document.querySelector('.form-control');
+    let searchBtn = document.querySelector('nav .btn');
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter' && document.activeElement === searchBox) {
+        searchBtn.click();
+      }
+    };
+
+    searchBox.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      searchBox.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []); // empty dependency array ensures that this effect runs only once
 
   const getTracks = async () => {
     setIsLoading(true);
     try {
       let data = await fetch(
         `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
-          keyword === "" ? "daku" : keyword
+          keyword === '' ? 'daku' : keyword
         }&type=track`
       );
       if (data.status === 200) {
-        setMessage("");
+        setMessage('');
         let convertedData = await data.json();
         setTracks(convertedData.tracks.items);
       } else if (data.status === 429) {
-        setMessage("We apologize for the inconvenience, but our API calls for this service have reached their limit for the month. Please check back later to continue enjoying our music selection. Thank you for your understanding.");
+        setMessage(
+          'We apologize for the inconvenience, but our API calls for this service have reached their limit for the month. Please check back later to continue enjoying our music selection. Thank you for your understanding.'
+        );
       } else if (data.status === 400) {
-        setMessage("Please try again!");
+        setMessage('Please try again!');
       } else {
-        setMessage("Something went wrong! Please try again!");
+        setMessage('Something went wrong! Please try again!');
       }
-      console.log(data)
+      console.log(data);
     } catch (error) {
       setTracks([]);
-      setMessage("");
-      alert("Unable to connect! Please check your internet connection");
+      setMessage('');
+      alert('Unable to connect! Please check your internet connection');
     }
     setIsLoading(false);
   };
@@ -63,11 +82,11 @@ function App() {
       </nav>
 
       <div className="container">
-        <div className={`row ${isLoading ? "" : "d-none"}`}>
+        <div className={`row ${isLoading ? '' : 'd-none'}`}>
           <div className="col-12 py-5 text-center">
             <div
               className="spinner-border"
-              style={{ width: "3rem", height: "3rem" }}
+              style={{ width: '3rem', height: '3rem' }}
               role="status"
             >
               <span className="visually-hidden">Loading...</span>
