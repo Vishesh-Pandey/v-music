@@ -35,6 +35,9 @@ function App() {
     setIsLoading(false);
   };
 
+  const handleSearchOnEnter = (e) => e.key === "Enter" && getTracks();
+  const handleSearchOnClickBtn = () => getTracks();
+    
   return (
     <>
       <nav className="navbar navbar-dark navbar-expand-lg bg-dark">
@@ -54,8 +57,9 @@ function App() {
               type="search"
               placeholder="Search"
               aria-label="Search"
+              onKeyUp={(e) => handleSearchOnEnter(e)}
             />
-            <button onClick={getTracks} className="btn btn-outline-success">
+            <button onClick={handleSearchOnClickBtn} className="btn btn-outline-success">
               Search
             </button>
           </div>
