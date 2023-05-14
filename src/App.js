@@ -1,39 +1,64 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [tracks, setTracks] = useState([]);
+  const [token, setToken] = useState(null);
 
-  const getTracks = async () => {
-    setIsLoading(true);
+  const fetchMusicData = async () => {
+    setIsLoading(true)
     try {
-      let data = await fetch(
-        `https://v1.nocodeapi.com/visheshpandey/spotify/dNxiRTREOhvTzsYn/search?q=${
-          keyword === "" ? "daku" : keyword
-        }&type=track`
-      );
-      if (data.status === 200) {
-        setMessage("");
-        let convertedData = await data.json();
-        setTracks(convertedData.tracks.items);
-      } else if (data.status === 429) {
-        setMessage("We apologize for the inconvenience, but our API calls for this service have reached their limit for the month. Please check back later to continue enjoying our music selection. Thank you for your understanding.");
-      } else if (data.status === 400) {
-        setMessage("Please try again!");
-      } else {
-        setMessage("Something went wrong! Please try again!");
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=track`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch music data');
       }
-      console.log(data)
+
+      const jsonData = await response.json();
+      console.log(jsonData)
+      setTracks(jsonData.tracks.items);
     } catch (error) {
-      setTracks([]);
-      setMessage("");
-      alert("Unable to connect! Please check your internet connection");
+      setMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
+    setIsLoading(false)
   };
+
+  useEffect(() => {
+    // current client credentials will be deleted in few days
+    const fetchToken = async () => {
+      try {
+        const response = await fetch('https://accounts.spotify.com/api/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: 'grant_type=client_credentials&client_id=a77073181b7d48eb90003e3bb94ff88a&client_secret=68790982a0554d1a83427e061e371507',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch token');
+        }
+
+        const jsonData = await response.json();
+        setToken(jsonData.access_token);
+      } catch (error) {
+        setMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchToken();
+  }
+  )
 
   return (
     <>
@@ -55,7 +80,7 @@ function App() {
               placeholder="Search"
               aria-label="Search"
             />
-            <button onClick={getTracks} className="btn btn-outline-success">
+            <button onClick={fetchMusicData} className="btn btn-outline-success">
               Search
             </button>
           </div>
