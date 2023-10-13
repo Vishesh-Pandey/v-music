@@ -9,7 +9,7 @@ function App() {
   const [token, setToken] = useState(null);
 
   const fetchMusicData = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=track`, {
         headers: {
@@ -22,14 +22,18 @@ function App() {
       }
 
       const jsonData = await response.json();
-      console.log(jsonData)
       setTracks(jsonData.tracks.items);
     } catch (error) {
       setMessage(error.message);
     } finally {
       setIsLoading(false);
     }
-    setIsLoading(false)
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      fetchMusicData();
+    }
   };
 
   useEffect(() => {
@@ -57,8 +61,7 @@ function App() {
       }
     };
     fetchToken();
-  }
-  )
+  }, []);
 
   return (
     <>
@@ -68,13 +71,11 @@ function App() {
             <i className="bi bi-music-note-list mx-3"></i> v-music
           </a>
 
-          <div
-            className="collapse navbar-collapse d-flex justify-content-center"
-            id="navbarSupportedContent"
-          >
+          <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
             <input
               value={keyword}
               onChange={(event) => setKeyword(event.target.value)}
+              onKeyPress={handleKeyPress}
               className="form-control me-2 w-75"
               type="search"
               placeholder="Search"
@@ -120,11 +121,7 @@ function App() {
                     <p className="card-text">
                       Release date: {element.album.release_date}
                     </p>
-                    <audio
-                      src={element.preview_url}
-                      controls
-                      className="w-100"
-                    ></audio>
+                    <audio src={element.preview_url} controls className="w-100"></audio>
                   </div>
                 </div>
               </div>
