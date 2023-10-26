@@ -1,5 +1,11 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import Card from "./components/Card";
+import CreatePlaylist from "./components/CreatePlaylist";
+import { initializePlaylist } from "./initialize";
+import { Route, Routes } from "react-router-dom";
+import LikedMusic from "./components/LikedMusic";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [keyword, setKeyword] = useState("");
@@ -11,14 +17,17 @@ function App() {
   const fetchMusicData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=track`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://api.spotify.com/v1/search?q=${keyword}&type=track`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch music data');
+        throw new Error("Failed to fetch music data");
       }
 
       const jsonData = await response.json();
@@ -31,25 +40,27 @@ function App() {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       fetchMusicData();
     }
   };
 
   useEffect(() => {
+    initializePlaylist();
+
     // current client credentials will be deleted in few days
     const fetchToken = async () => {
       try {
-        const response = await fetch('https://accounts.spotify.com/api/token', {
-          method: 'POST',
+        const response = await fetch("https://accounts.spotify.com/api/token", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: 'grant_type=client_credentials&client_id=a77073181b7d48eb90003e3bb94ff88a&client_secret=68790982a0554d1a83427e061e371507',
+          body: "grant_type=client_credentials&client_id=a77073181b7d48eb90003e3bb94ff88a&client_secret=68790982a0554d1a83427e061e371507",
         });
 
         if (!response.ok) {
-          throw new Error('Failed to fetch token');
+          throw new Error("Failed to fetch token");
         }
 
         const jsonData = await response.json();
@@ -65,28 +76,17 @@ function App() {
 
   return (
     <>
-      <nav className="navbar navbar-dark navbar-expand-lg bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/v-music">
-            <i className="bi bi-music-note-list mx-3"></i> v-music
-          </a>
+      <Navbar
+        keyword={keyword}
+        setKeyword={setKeyword}
+        handleKeyPress={handleKeyPress}
+        fetchMusicData={fetchMusicData}
+      />
 
-          <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
-            <input
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              onKeyPress={handleKeyPress}
-              className="form-control me-2 w-75"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button onClick={fetchMusicData} className="btn btn-outline-success">
-              Search
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Routes>
+        <Route path="/likedMusic" element={<LikedMusic />} />
+        <Route path="/" element={<div></div>} />
+      </Routes>
 
       <div className="container">
         <div className={`row ${isLoading ? "" : "d-none"}`}>
@@ -102,30 +102,7 @@ function App() {
         </div>
         <div className="row">
           {tracks.map((element) => {
-            return (
-              <div key={element.id} className="col-lg-3 col-md-6 py-2">
-                <div className="card">
-                  <div className="ratio ratio-1x1 bg-secondary bg-opacity-25">
-                    <img
-                      src={element.album.images[0].url}
-                      className="card-img-top"
-                      alt="..."
-                    />
-                  </div>
-
-                  <div className="card-body">
-                    <h5 className="card-title">{element.name}</h5>
-                    <p className="card-text">
-                      Artist: {element.album.artists[0].name}
-                    </p>
-                    <p className="card-text">
-                      Release date: {element.album.release_date}
-                    </p>
-                    <audio src={element.preview_url} controls className="w-100"></audio>
-                  </div>
-                </div>
-              </div>
-            );
+            return <Card key={element.id} element={element} />;
           })}
         </div>
         <div className="row">
@@ -152,6 +129,15 @@ function App() {
             </div>
           </div>
         </div>
+      </div>
+      <div
+        className="modal fade position-absolute"
+        id="exampleModal"
+        tabIndex={-1}
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <CreatePlaylist />
       </div>
     </>
   );
