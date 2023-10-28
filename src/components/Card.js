@@ -40,14 +40,14 @@ function Card({ element }) {
             {element.name}
             <div className="add-options d-flex align-items-start">
               {likedMusic.some((item) => item.id === element.id) ? (
-                <button className="btn btn-outline-secondary">
+                <button className="btn">
                   <i
                     onClick={handleLike}
                     className="bi bi-heart-fill text-danger"
                   ></i>
                 </button>
               ) : (
-                <button className="btn btn-outline-secondary">
+                <button className="btn">
                   <i onClick={handleLike} className="bi bi-heart"></i>
                 </button>
               )}

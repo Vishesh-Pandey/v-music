@@ -6,6 +6,9 @@ import { initializePlaylist } from "./initialize";
 import { Route, Routes } from "react-router-dom";
 import LikedMusic from "./components/LikedMusic";
 import Navbar from "./components/Navbar";
+import React, { createContext } from "react";
+
+export const ColorContext = createContext();
 
 function App() {
   const [keyword, setKeyword] = useState("");
@@ -13,6 +16,8 @@ function App() {
   const [message, setMessage] = useState("");
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState(null);
+  const [backgroundColor, setBackgroundColor] = useState("white");
+  const [navbarColor, setNavbarColor] = useState("black");
 
   const fetchMusicData = async () => {
     setIsLoading(true);
@@ -48,7 +53,6 @@ function App() {
   useEffect(() => {
     initializePlaylist();
 
-    // current client credentials will be deleted in few days
     const fetchToken = async () => {
       try {
         const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -75,7 +79,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <ColorContext.Provider value={{ backgroundColor, setBackgroundColor, navbarColor, setNavbarColor }}>
       <Navbar
         keyword={keyword}
         setKeyword={setKeyword}
@@ -113,7 +117,7 @@ function App() {
         <div className="row">
           <div className="col-12 py-5 text-center">
             <h1>
-              <i className="bi bi-music-note-list mx-3"></i>
+              <i className="bi bi-music-note-list mx-3" style={{ color: navbarColor }}></i>
               v-music
             </h1>
             <h3 className="py-5">Discover music in 30 seconds</h3>
@@ -139,7 +143,7 @@ function App() {
       >
         <CreatePlaylist />
       </div>
-    </>
+    </ColorContext.Provider>
   );
 }
 
