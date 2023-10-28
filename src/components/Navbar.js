@@ -77,7 +77,7 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             </div>
             <div className="modal-body">
               <button onClick={handleInvertColors} className="btn btn-light">
-                Invert Colors
+                Invert monochrome
               </button>
               <div>
                 <label htmlFor="backgroundColor">Colour 1:</label>
