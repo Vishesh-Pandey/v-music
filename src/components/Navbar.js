@@ -11,8 +11,8 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
 
   const handleInvertColors = () => {
     setInvertColors(!invertColors);
-    setNavbarColor(invertColors ? "black" : "white");
-    setBackgroundColor(invertColors ? "white" : "black");
+    setNavbarColor(invertColors ? "white" : "black");
+    setBackgroundColor(invertColors ? "black" : "white");
   };
 
   const handleSaveColors = () => {
