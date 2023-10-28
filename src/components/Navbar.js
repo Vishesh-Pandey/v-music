@@ -102,7 +102,7 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
-              <button onClick={handleSaveColors} className="btn btn-primary">
+              <button onClick={handleSaveColors} className="btn btn-success">
                 Save
               </button>
             </div>
