@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Link } from "react-router-dom";
+import { MusicContext } from "../Context";
 
 const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
+  const musicContext = useContext(MusicContext);
+  const likedMusic = musicContext.likedMusic;
   return (
     <nav className="navbar navbar-dark navbar-expand-lg bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/v-music">
+        <Link className="navbar-brand" to="/">
           <i className="bi bi-music-note-list mx-3"></i> v-music
-        </a>
+        </Link>
         <div className="dropdown">
           <button
             className="btn btn-sm btn-secondary dropdown-toggle"
@@ -16,25 +19,26 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            Liked Music
+            Liked Music {likedMusic.length}
           </button>
           <ul className="dropdown-menu">
             <li>
-              <a className="dropdown-item text-secondary" href="/">
+              <a disabled className="dropdown-item text-secondary" href="/">
                 All Playlist
               </a>
             </li>
             <li>
               <Link className="dropdown-item" to="/likedMusic">
-                Liked Music
+                Liked Music ( {likedMusic.length} )
               </Link>
             </li>
             <li>
               <button
                 type="button"
-                className="btn text-secondary"
+                className="btn text-secondary border-0"
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
+                disabled
               >
                 Create new
               </button>

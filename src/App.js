@@ -1,18 +1,24 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "./components/Card";
 import CreatePlaylist from "./components/CreatePlaylist";
 import { initializePlaylist } from "./initialize";
 import { Route, Routes } from "react-router-dom";
 import LikedMusic from "./components/LikedMusic";
 import Navbar from "./components/Navbar";
+import { MusicContext } from "./Context";
 
 function App() {
   const [keyword, setKeyword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState(null);
+
+  const musicContext = useContext(MusicContext);
+  const isLoading = musicContext.isLoading;
+  const setIsLoading = musicContext.setIsLoading;
+  // const likedMusic = musicContext.likedMusic;
+  const setLikedMusic = musicContext.setLikedMusic;
 
   const fetchMusicData = async () => {
     setIsLoading(true);
@@ -72,7 +78,8 @@ function App() {
       }
     };
     fetchToken();
-  }, []);
+    setLikedMusic(JSON.parse(localStorage.getItem("likedMusic")));
+  }, [setIsLoading, setLikedMusic]);
 
   return (
     <>

@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { MusicContext } from "../Context";
 
 function Card({ element }) {
-  const [likedMusic, setlikedMusic] = useState([]);
+  const musicContext = useContext(MusicContext);
+  const likedMusic = musicContext.likedMusic;
+  const setlikedMusic = musicContext.setLikedMusic;
 
   const handleLike = () => {
     let likedMusic = localStorage.getItem("likedMusic");
@@ -22,7 +25,7 @@ function Card({ element }) {
   useEffect(() => {
     const localLikedMusic = JSON.parse(localStorage.getItem("likedMusic"));
     setlikedMusic(localLikedMusic);
-  }, []);
+  }, [setlikedMusic]);
 
   return (
     <div key={element.id} className="col-lg-3 col-md-6 py-2">
