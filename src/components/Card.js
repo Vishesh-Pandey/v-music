@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { MusicContext } from "../Context";
 
 function Card({ element }) {
-  const [likedMusic, setlikedMusic] = useState([]);
+  const musicContext = useContext(MusicContext);
+  const likedMusic = musicContext.likedMusic;
+  const setlikedMusic = musicContext.setLikedMusic;
 
   const handleLike = () => {
     let likedMusic = localStorage.getItem("likedMusic");
@@ -22,7 +25,7 @@ function Card({ element }) {
   useEffect(() => {
     const localLikedMusic = JSON.parse(localStorage.getItem("likedMusic"));
     setlikedMusic(localLikedMusic);
-  }, []);
+  }, [setlikedMusic]);
 
   return (
     <div key={element.id} className="col-lg-3 col-md-6 py-2">
@@ -40,11 +43,11 @@ function Card({ element }) {
             {element.name}
             <div className="add-options d-flex align-items-start">
               {likedMusic.some((item) => item.id === element.id) ? (
-                <button className="btn btn-outline-secondary">
-                  <i
-                    onClick={handleLike}
-                    className="bi bi-heart-fill text-danger"
-                  ></i>
+                <button
+                  onClick={handleLike}
+                  className="btn btn-outline-secondary"
+                >
+                  <i className="bi bi-heart-fill text-danger"></i>
                 </button>
               ) : (
                 <button className="btn btn-outline-secondary">
