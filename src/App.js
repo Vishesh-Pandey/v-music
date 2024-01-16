@@ -17,14 +17,17 @@ function App() {
   const musicContext = useContext(MusicContext);
   const isLoading = musicContext.isLoading;
   const setIsLoading = musicContext.setIsLoading;
-  // const likedMusic = musicContext.likedMusic;
   const setLikedMusic = musicContext.setLikedMusic;
+  const resultOffset = musicContext.resultOffset;
+  const setResultOffset = musicContext.setResultOffset;
 
   const fetchMusicData = async () => {
+    setTracks([]);
+    window.scrollTo(0, 0);
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${keyword}&type=track`,
+        `https://api.spotify.com/v1/search?q=${keyword}&type=track&offset=${resultOffset}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,6 +40,7 @@ function App() {
       }
 
       const jsonData = await response.json();
+
       setTracks(jsonData.tracks.items);
     } catch (error) {
       setMessage(error.message);
@@ -47,6 +51,7 @@ function App() {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
+      setResultOffset(0);
       fetchMusicData();
     }
   };
@@ -111,6 +116,31 @@ function App() {
           {tracks.map((element) => {
             return <Card key={element.id} element={element} />;
           })}
+        </div>
+        <div className="row" hidden={tracks.length === 0}>
+          <div className="col">
+            <button
+              onClick={() => {
+                setResultOffset((previous) => previous - 20);
+                fetchMusicData();
+              }}
+              className="btn btn-outline-success w-100"
+              disabled={resultOffset === 0}
+            >
+              Previous Next Page: {resultOffset / 20}
+            </button>
+          </div>
+          <div className="col">
+            <button
+              onClick={() => {
+                setResultOffset((previous) => previous + 20);
+                fetchMusicData();
+              }}
+              className="btn btn-outline-success w-100"
+            >
+              Next Page: {resultOffset / 20 + 2}
+            </button>
+          </div>
         </div>
         <div className="row">
           <div className="col">

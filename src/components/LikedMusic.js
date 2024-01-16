@@ -3,7 +3,7 @@ import Card from "./Card";
 import { useNavigate } from "react-router-dom";
 import { MusicContext } from "../Context";
 
-function LikedMusic({ music }) {
+function LikedMusic() {
   const musicContext = useContext(MusicContext);
   const likedMusic = musicContext.likedMusic;
   const setlikedMusic = musicContext.setLikedMusic;
@@ -15,6 +15,7 @@ function LikedMusic({ music }) {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const localLikedMusic = JSON.parse(localStorage.getItem("likedMusic"));
     console.log(localLikedMusic);
     setlikedMusic(localLikedMusic);

@@ -6,8 +6,9 @@ import { MusicContext } from "../Context";
 const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
   const musicContext = useContext(MusicContext);
   const likedMusic = musicContext.likedMusic;
+  const setResultOffset = musicContext.setResultOffset;
   return (
-    <nav className="navbar navbar-dark navbar-expand-lg bg-dark">
+    <nav className="navbar navbar-dark navbar-expand-lg bg-dark sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <i className="bi bi-music-note-list mx-3"></i> v-music
@@ -59,7 +60,13 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             placeholder="Search"
             aria-label="Search"
           />
-          <button onClick={fetchMusicData} className="btn btn-outline-success">
+          <button
+            onClick={() => {
+              setResultOffset(0);
+              fetchMusicData();
+            }}
+            className="btn btn-outline-success"
+          >
             Search
           </button>
         </div>
