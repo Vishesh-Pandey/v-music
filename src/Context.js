@@ -5,6 +5,7 @@ export const MusicContext = createContext();
 export const ContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [likedMusic, setLikedMusic] = useState([]);
+  const [pinnedMusic, setPinnedMusic] = useState([]);
   const [resultOffset, setResultOffset] = useState(0);
 
   return (
@@ -16,6 +17,8 @@ export const ContextProvider = ({ children }) => {
         setLikedMusic,
         resultOffset,
         setResultOffset,
+        pinnedMusic,
+        setPinnedMusic,
       }}
     >
       {children}
