@@ -62,19 +62,31 @@ function Card({ element }) {
           <h5 className="card-title d-flex justify-content-between">
             {element.name}
             <div className="add-options d-flex align-items-start">
-              {likedMusic.some((item) => item.id === element.id) ? (
+              {pinnedMusic.some((item) => item.id === element.id) ? (
                 <button
-                  onClick={handleLike}
-                  className="btn btn-outline-secondary"
+                  onClick={handlePin}
+                  className="btn btn-outline-dark mx-1"
                 >
+                  <i className="bi bi-pin-angle-fill"></i>
+                </button>
+              ) : (
+                <button
+                  onClick={handlePin}
+                  className="btn btn-outline-dark mx-1"
+                >
+                  <i className="bi bi-pin-angle"></i>
+                </button>
+              )}
+              {likedMusic.some((item) => item.id === element.id) ? (
+                <button onClick={handleLike} className="btn btn-outline-dark">
                   <i className="bi bi-heart-fill text-danger"></i>
                 </button>
               ) : (
-                <button className="btn btn-outline-secondary">
-                  <i onClick={handleLike} className="bi bi-heart"></i>
+                <button onClick={handleLike} className="btn btn-outline-dark">
+                  <i className="bi bi-heart"></i>
                 </button>
               )}
-
+              {/* 
               <div className="dropdown mx-1">
                 <button
                   className="btn btn-secondary dropdown-toggle"
@@ -109,7 +121,7 @@ function Card({ element }) {
                     </button>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </h5>
           <p className="card-text">Artist: {element.album.artists[0].name}</p>

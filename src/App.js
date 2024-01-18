@@ -3,8 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import Card from "./components/Card";
 import CreatePlaylist from "./components/CreatePlaylist";
 import { initializePlaylist } from "./initialize";
-import { Route, Routes } from "react-router-dom";
-import LikedMusic from "./components/LikedMusic";
 import Navbar from "./components/Navbar";
 import { MusicContext } from "./Context";
 
@@ -18,6 +16,7 @@ function App() {
   const isLoading = musicContext.isLoading;
   const setIsLoading = musicContext.setIsLoading;
   const setLikedMusic = musicContext.setLikedMusic;
+  const setpinnedMusic = musicContext.setPinnedMusic;
   const resultOffset = musicContext.resultOffset;
   const setResultOffset = musicContext.setResultOffset;
 
@@ -84,7 +83,8 @@ function App() {
     };
     fetchToken();
     setLikedMusic(JSON.parse(localStorage.getItem("likedMusic")));
-  }, [setIsLoading, setLikedMusic]);
+    setpinnedMusic(JSON.parse(localStorage.getItem("pinnedMusic")));
+  }, [setIsLoading, setLikedMusic, setpinnedMusic]);
 
   return (
     <>
@@ -94,11 +94,6 @@ function App() {
         handleKeyPress={handleKeyPress}
         fetchMusicData={fetchMusicData}
       />
-
-      <Routes>
-        <Route path="/likedMusic" element={<LikedMusic />} />
-        <Route path="/" element={<div></div>} />
-      </Routes>
 
       <div className="container">
         <div className={`row ${isLoading ? "" : "d-none"}`}>

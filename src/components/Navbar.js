@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MusicContext } from "../Context";
 import PinnedMusic from "./PinnedMusic";
+import LikedMusic from "./LikedMusic";
 
 const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
   const musicContext = useContext(MusicContext);
@@ -16,47 +17,23 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
           <Link className="navbar-brand" to="/">
             <i className="bi bi-music-note-list mx-3"></i> v-music
           </Link>
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            className="btn btn-sm btn-secondary mx-1"
-          >
-            <i class="bi bi-pin-angle-fill"></i> {pinnedMusic.length}
-          </button>
-          <div className="dropdown">
+          <div>
             <button
-              className="btn btn-sm btn-secondary dropdown-toggle"
               type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              className="btn btn-secondary btn-sm mx-1"
             >
-              Liked Music {likedMusic.length}
+              <i className="bi bi-pin-angle-fill"></i> {pinnedMusic.length}
             </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a disabled className="dropdown-item text-secondary" href="/">
-                  All Playlist
-                </a>
-              </li>
-              <li>
-                <Link className="dropdown-item" to="/likedMusic">
-                  Liked Music ( {likedMusic.length} )
-                </Link>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  className="btn text-secondary border-0"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  disabled
-                >
-                  Create new
-                </button>
-              </li>
-            </ul>
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#likedMusicModal"
+              className="btn btn-secondary btn-sm mx-1"
+            >
+              <i className="bi bi-heart-fill"></i> {likedMusic.length}
+            </button>
           </div>
 
           <div
@@ -108,17 +85,32 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             <div className="modal-body">
               <PinnedMusic />
             </div>
-            <div className="modal-footer">
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade modal-xl"
+        id="likedMusicModal"
+        tabIndex={1}
+        aria-labelledby="likedMusicModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="likedMusicModalLabel">
+                Liked Music
+              </h1>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn-close"
                 data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary">
-                Save changes
-              </button>
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <LikedMusic />
             </div>
           </div>
         </div>
