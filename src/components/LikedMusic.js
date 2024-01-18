@@ -1,23 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import Card from "./Card";
-import { useNavigate } from "react-router-dom";
 import { MusicContext } from "../Context";
 
 function LikedMusic() {
   const musicContext = useContext(MusicContext);
   const likedMusic = musicContext.likedMusic;
   const setlikedMusic = musicContext.setLikedMusic;
-  const navigate = useNavigate();
-
-  const deleteAllLikedMusic = () => {
-    localStorage.setItem("likedMusic", "[]");
-    navigate("/");
-  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const localLikedMusic = JSON.parse(localStorage.getItem("likedMusic"));
-    console.log(localLikedMusic);
     setlikedMusic(localLikedMusic);
   }, [setlikedMusic]);
 
@@ -30,6 +22,9 @@ function LikedMusic() {
               <h3 className="py-5 text-center">
                 You don't have any liked music yet!
               </h3>
+              <div className="text-center">
+                <i className="bi bi-emoji-frown fs-1"></i>{" "}
+              </div>
             </div>
           </div>
         </div>
@@ -46,22 +41,6 @@ function LikedMusic() {
           {likedMusic.map((element) => {
             return <Card key={element.id} element={element} />;
           })}
-        </div>
-        <div className="row">
-          <div className="col">
-            {likedMusic.length === 0 ? (
-              <div className="text-center">
-                <i className="bi bi-emoji-frown fs-1"></i>{" "}
-              </div>
-            ) : (
-              <button
-                onClick={deleteAllLikedMusic}
-                className="btn btn-outline-danger"
-              >
-                Delete All Liked Music
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </div>
